@@ -3,6 +3,7 @@
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\VehiculoController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -71,15 +72,15 @@ Route::get('/test', function(){
 });
 
 
-Route::get('/', [MainController::class,'index']);
+Route::get('/', [MainController::class,'index'])->name('home');
 
-Route::get('/listar',[ItemController::class,'index'])->name('listar.items');
-Route::get('/crear',[ItemController::class,'showFormCreate'])->name('mostrar.crear');
-Route::POST('/store',[ItemController::class,'store'])->name('crear.item');
-Route::get('/mostrar/{id}',[ItemController::class,'show'])->name('mostrar.item');
-Route::get('/editar/{id}',[ItemController::class,'showFormEdit'])->name('mostrar.editar');
-Route::get('/eliminar/{id}',[ItemController::class,'destroy'])->name('eliminar.item');
-Route::post('/actualizar',[ItemController::class,'update'])->name('actualizar.item');
+Route::get('/listar',[VehiculoController::class,'index'])->name('listar.items');
+Route::get('/ver/{matricula}', [VehiculoController::class, 'show'])->name('mostrar.item');
+Route::get('/editar/{id}',[VehiculoController::class,'edit'])->name('mostrar.editar');
+Route::put('/actualizar/{id}',[VehiculoController::class,'update'])->name('actualizar.item');
+Route::delete('/eliminar/{id}',[VehiculoController::class,'destroy'])->name('eliminar.item');
+Route::get('/crear',[VehiculoController::class,'create'])->name('mostrar.crear');
+Route::POST('/store',[VehiculoController::class,'store'])->name('crear.item');
 
 
 /*Route::get('/ruta1/{nombre}/{edad}', function ($nombre,$edad) {

@@ -1,11 +1,8 @@
 .box{
-    height: 100px;
+    height: 180px;
     color: white;
-    margin:5px;
     background-color: #000a30;
+    margin: 15px;
     border-radius: 5px;
     text-align: center;
-}
-html,p,h1,tr,td{
-
 }

@@ -13,6 +13,7 @@ class ModeloSeeder extends Seeder
      */
     public function run(): void
     {
+        Modelo::truncate();
         foreach (range(1,5)as $loop){
             Modelo::create([
                 'campo1'=>"campo1".$loop,
