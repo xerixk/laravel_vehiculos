@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Database\Seeders\testSeeders;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -23,7 +24,15 @@ class UserFactory extends Factory
             'lastname' => fake()->lastname(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            //'password' =>Hash::make(fake()->password(8)), 
+            'password' =>Hash::make("123456789"), 
+            'direccion'=> fake()->streetAddress(),
+            'ciudad'=>fake()->city(),
+            'pais'=>fake()->country(),
+            'telefono'=>fake()->numerify(str_repeat('#', fake()->numberBetween(10, 15))),
+            'codigo_postal'=>fake()->regexify('[A-Za-z0-9]{1,10}'),
+            'fecha_nacimiento'=>fake()->dateTimeBetween('-80 years','-18 years')->format('Y-m-d'),
+            'genero'=>fake()->randomElement((['masculino','femenino'])),
             'remember_token' => Str::random(10),
         ];
     }
@@ -41,3 +50,4 @@ class UserFactory extends Factory
     }
     
 }
+ 
