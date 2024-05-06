@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -41,7 +42,7 @@ class RegisteredUserController extends Controller
             'telefono' => ['required', 'numeric','digits_between:10,15'],
             'codigoPostal' => ['required', 'numeric', 'max:10'],
             'nacimiento' => ['required', 'date','before:-18 years'],
-            'genero' => ['required', 'string'],
+            'genero' => ['required', Rule::in(['masculino', 'femenino'])],
         ]);
 
         $user = User::create([
