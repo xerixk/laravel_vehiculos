@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
             'ciudad' => ['required', 'string', 'max:250'],
             'pais' => ['required', 'string', 'max:250'],
             'telefono' => ['required', 'numeric','digits_between:10,15'],
-            'codigoPostal' => ['required', 'string', 'max:10'],
+            'codigoPostal' => ['required', 'numeric', 'max:10'],
             'nacimiento' => ['required', 'date','before:-18 years'],
             'genero' => ['required', 'string'],
         ]);
