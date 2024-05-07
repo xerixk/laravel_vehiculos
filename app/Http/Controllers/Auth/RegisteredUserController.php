@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -31,6 +32,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if($request->hasFile('avatar') && $request->file('avatar') ){
+            $uploadedFile = $request->file('avatar');
+            $fileName = $uploadedFile->getClientOriginalName();
+            $path = Storage::putFileAs('public/avatars', $uploadedFile, $fileName);
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -40,9 +47,10 @@ class RegisteredUserController extends Controller
             'ciudad' => ['required', 'string', 'max:250'],
             'pais' => ['required', 'string', 'max:250'],
             'telefono' => ['required', 'numeric','digits_between:10,15'],
-            'codigoPostal' => ['required', 'numeric', 'max:10'],
+            'codigoPostal' => ['required', 'numeric', 'digits_between:1,10'],
             'nacimiento' => ['required', 'date','before:-18 years'],
             'genero' => ['required', Rule::in(['masculino', 'femenino'])],
+             'avatar'=> $fileName ?? null,
         ]);
 
         $user = User::create([
