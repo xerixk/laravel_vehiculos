@@ -7,7 +7,7 @@
     
             <form action="{{ route('guardar.fichero') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="file" name="archivo" />
+                <input type="file" name="archivo" accept=".jpg,.png,.pdf,.gif,.doc" />
                 <button type="submit">Subir archivo</button>
             </form>
         </div>

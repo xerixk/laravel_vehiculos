@@ -40,7 +40,10 @@ Route::put('/actualizar/{id}',[VehiculoController::class,'update'])->name('actua
 Route::delete('/eliminar/{id}',[VehiculoController::class,'destroy'])->name('eliminar.item');
 Route::get('/crear',[VehiculoController::class,'create'])->name('mostrar.crear');
 Route::POST('/store',[VehiculoController::class,'store'])->name('crear.item');
+
+Route::get('/form.fichero',[FicheroController::class,"showFormFichero"] )->name("form.fichero");
 Route::post('/guardar.fichero', [FicheroController::class, 'guardar'])->name('guardar.fichero');
 Route::get('/listar.ficheros', [FicheroController::class, 'index'])->name('listar.ficheros');
+Route::get('/eliminarFichero/{id}',[FicheroController::class,"destroy"] )->name("eliminar.fichero");
 
 require __DIR__.'/auth.php';

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Fichero;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class FicheroController extends Controller
 {
     public function guardar(Request $request)
     {
         $request->validate([
-            'archivo' => 'required|file|max:10240|mimes:png,jpg,pdfgif,docx', 
+            'archivo' => 'required|file|max:10240|mimes:png,jpg,pdf,gif,docx', 
         ]);
 
         $rutaArchivo = $request->file('archivo');
@@ -36,7 +37,19 @@ class FicheroController extends Controller
     }
     public function showFormFichero(): View
     {
-        return view("itemViews.createFichero");
+        return view("itemViews.createFicheros");
+    }
+    public function destroy(string $id){
+        $fichero=Fichero::find($id);
+
+        if($fichero!=null && Storage::disk('public')->exists('files/'.$fichero->nombre)){
+            Storage::disk('public')->delete('files/'.$fichero->nombre);
+            $fichero->delete();
+            return redirect()->route('listar.ficheros')->with('success','Fichero eliminado correctamente.');
+        }else{
+            return redirect()->route('listar.ficheros')->with('error','Fichero no encontrado.');
+        }
+
     }
 }
 

@@ -8,6 +8,12 @@
                     <div class="col-md-2 box">
                         <a href="{{route('mostrar.crear')}}">Crear elementos</a>
                     </div>
+                    <div class="col-md-2 box">
+                        <a href="{{route('listar.ficheros')}}">Listar ficheros</a>
+                    </div>
+                    <div class="col-md-2 box">
+                        <a href="{{route('form.fichero')}}">Subir fichero</a>
+                    </div>
 
 
                     <div class="col-md-2 box">
