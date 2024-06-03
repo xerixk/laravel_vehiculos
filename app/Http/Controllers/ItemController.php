@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModeloVehiculo;
 use Illuminate\Http\Request;
+use \App\Models\Vehiculo;
+
 
 class ItemController extends Controller
 {
@@ -11,17 +14,16 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $data = ["0"=>"item1","1"=>"item2","2"=>"item3","3"=>"item4"];
-        //return view('itemViews.index',['data'=>$data]);
-        //return view('itemViews.index')->with('data',$data);
-        return view('itemViews.index',compact('data'));
+        $vehiculos=ModeloVehiculo::select('matricula','modelo','fecha_matriculacion','peso','color','itv_pasada')->get();
+        return view("productos.index",["data"=>$vehiculos]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
     public function showFormCreate()
     {
-        return view('itemViews.create');
+        return view("productos.create");
     }
 
     /**
@@ -29,7 +31,15 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
+        ModeloVehiculo::create([
+            "modelo"=>$request->modelo,
+            "peso"=>$request->peso,
+            "color"=>$request->color,
+            "itv_pasada"=>true
+        ]);
+
+        return redirect()->route('listar.items');
     }
 
     /**
@@ -37,7 +47,7 @@ class ItemController extends Controller
      */
     public function show(string $id)
     {
-        return view('itemViews.show',compact('id'));
+        return view("productos.show",["id"=>$id]);
     }
 
     /**
@@ -45,20 +55,21 @@ class ItemController extends Controller
      */
     public function showFormEdit(string $id)
     {
-        return view('itemViews.edit',compact('id'));
+        return view("productos.edit",["id"=>$id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //dd($request->all());
-        echo "Editando el item con id $request->idItem y poniendo como nombre: $request->item";
+        ModeloVehiculo::where('matricula',$request->idItem)->update([
+            "modelo"=>$request->modelo,
+            "peso"=>$request->peso,
+            "color"=>$request->color,
+        ]);
 
-        //redirecciones
-        return redirect()->route('mostrar.editar',$request->idItem);
-       // return redirect()->back();
+        return redirect()->route('listar.items');
     }
 
     /**
@@ -66,6 +77,8 @@ class ItemController extends Controller
      */
     public function destroy(string $id)
     {
-        echo "Elemento con id $id ha sido eliminado!";
+        ModeloVehiculo::where('matricula',$id)->delete();
+
+        return redirect()->route('listar.items');
     }
 }

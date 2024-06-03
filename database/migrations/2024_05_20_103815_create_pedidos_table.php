@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ficheros', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('pedidos', function (Blueprint $table) {
+            $table->id();
+            $table->string('num_ref',10);
             $table->foreignId('user_id')->constrained('users');
-            $table->string('nombre');
-            $table->string('tipoFichero');
+            $table->foreignId('producto_id')->constrained('productos');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ficheros');
+        Schema::dropIfExists('pedidos');
     }
 };

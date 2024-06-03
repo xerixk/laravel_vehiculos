@@ -13,6 +13,10 @@ class Fichero extends Model
     'nombre', 
     'tipo_fichero',
     'user_id',
-    'ruta_archivo'
+    
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

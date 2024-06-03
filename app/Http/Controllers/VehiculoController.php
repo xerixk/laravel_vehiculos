@@ -13,7 +13,7 @@ class VehiculoController extends Controller
     public function index()
     {
         $vehiculos=ModeloVehiculo::all();
-        return view('itemViews.index',compact('vehiculos'));
+        return view("productos.index",["data"=>$vehiculos]);
     }
 
     /**
@@ -21,7 +21,7 @@ class VehiculoController extends Controller
      */
     public function create()
     {
-        return view('itemViews.create');
+        return view("productos.create");
     }
 
     /**
@@ -29,17 +29,23 @@ class VehiculoController extends Controller
      */
     public function store(Request $request)
     {
-        ModeloVehiculo::create($request->all());
+        ModeloVehiculo::create([
+            "modelo"=>$request->modelo,
+            "peso"=>$request->peso,
+            "color"=>$request->color,
+            "itv_pasada"=>true
+        ]);
         return redirect()->route('listar.items');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($matricula)
+    public function show(string $id)
     {
-        $vehiculo=ModeloVehiculo::where('matricula', $matricula)->first();
-        return view('itemViews.show',compact('vehiculo'));
+        return view("productos.show",["id"=>$id]);
+
     }
 
     /**
@@ -47,27 +53,31 @@ class VehiculoController extends Controller
      */
     public function edit(string $id)
     {
-        $vehiculo = ModeloVehiculo::findOrFail($id);
-    return view('itemViews.edit', compact('vehiculo'));
+        return view("productos.edit",["id"=>$id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $vehiculo = ModeloVehiculo::findOrFail($id);
-        $vehiculo->update($request->all());
+        
+        ModeloVehiculo::where('matricula',$request->idItem)->update([
+            "modelo"=>$request->modelo,
+            "peso"=>$request->peso,
+            "color"=>$request->color,
+        ]);
+
         return redirect()->route('listar.items');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $matricula)
     {
-        $vehiculo = ModeloVehiculo::findOrFail($id);
-        $vehiculo->delete();
-        return redirect()->route('listar.items');
+       ModeloVehiculo::where('matricula',$matricula)->delete();
+
+       return redirect()->route('listar.items');
     }
 }

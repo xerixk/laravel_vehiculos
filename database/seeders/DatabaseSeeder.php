@@ -15,16 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(TestSeeder::class);
-        $this->call(ModeloSeeder::class);
-        $this->call(VehiculoSeeders::class);
+        //$this->call(TestSeeder::class);
+       // $this->call(ModeloSeeder::class);
+       // $this->call(VehiculoSeeders::class);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        \App\Models\User::truncate();
+        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // \App\Models\User::truncate();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        \App\Models\User::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
+        $this->call(UserSeeder::class);
+        $this->call(ProductoSeeder::class);
         
     }
 }
